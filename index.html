@@ -438,10 +438,131 @@
       </div>
     </main>
 
-    <script src="scripts/triangle-calculate.js"></script>
-    <script src="scripts/rectangle-area.js"></script>
-    <script src="scripts/parallelogram-area.js"></script>
-    <script src="scripts/pentagon-area.js"></script>
-    <script src="scripts/ellipse-area.js"></script>
+    <script>
+      let calculationHistory = [];
+
+      function addToHistory(shape, area) {
+        const historyItem = {
+          shape: shape,
+          area: area.toFixed(2),
+          timestamp: new Date().toLocaleTimeString(),
+        };
+        calculationHistory.unshift(historyItem);
+        updateHistoryDisplay();
+      }
+
+      function updateHistoryDisplay() {
+        const listElement = document.getElementById("calculation-list");
+        if (calculationHistory.length === 0) {
+          listElement.innerHTML =
+            '<p class="text-gray-500 text-center py-8">No calculations yet</p>';
+          return;
+        }
+
+        listElement.innerHTML = calculationHistory
+          .map(
+            (item, index) => `
+          <div class="calculation-item bg-gray-50 p-3 rounded-lg border-l-4 border-blue-500">
+            <div class="flex justify-between items-center">
+              <div>
+                <p class="font-semibold text-gray-800">${item.shape}</p>
+                <p class="text-sm text-gray-600">Area: ${item.area} cm²</p>
+              </div>
+              <p class="text-xs text-gray-500">${item.timestamp}</p>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+      }
+
+      function clearHistory() {
+        calculationHistory = [];
+        updateHistoryDisplay();
+      }
+
+      function getInputValueById(inputFieldId) {
+        const inputField = document.getElementById(inputFieldId);
+        const inputValue = parseFloat(inputField.value);
+        return inputValue;
+      }
+
+      function setInnerTextById(elementId, area) {
+        const element = document.getElementById(elementId);
+        element.innerText = area.toFixed(2);
+      }
+
+      function calculateTriangleArea() {
+        const base = getInputValueById("triangle-base");
+        const height = getInputValueById("triangle-height");
+        if (isNaN(base) || isNaN(height)) {
+          alert("Please enter valid numbers");
+          return;
+        }
+        const area = 0.5 * base * height;
+        setInnerTextById("triangle-area", area);
+        addToHistory("Triangle", area);
+      }
+
+      function calculateRectangleArea() {
+        const length = getInputValueById("rectangle-length");
+        const width = getInputValueById("rectangle-width");
+        if (isNaN(length) || isNaN(width)) {
+          alert("Please enter valid numbers");
+          return;
+        }
+        const area = length * width;
+        setInnerTextById("rectangle-area", area);
+        addToHistory("Rectangle", area);
+      }
+
+      function calculateParallelogramArea() {
+        const base = getInputValueById("parallelogram-base");
+        const height = getInputValueById("parallelogram-height");
+        if (isNaN(base) || isNaN(height)) {
+          alert("Please enter valid numbers");
+          return;
+        }
+        const area = base * height;
+        setInnerTextById("parallelogram-area", area);
+        addToHistory("Parallelogram", area);
+      }
+
+      function calculateRhombusArea() {
+        const diagonal1 = getInputValueById("rhombus-diagonal1");
+        const diagonal2 = getInputValueById("rhombus-diagonal2");
+        if (isNaN(diagonal1) || isNaN(diagonal2)) {
+          alert("Please enter valid numbers");
+          return;
+        }
+        const area = 0.5 * diagonal1 * diagonal2;
+        setInnerTextById("rhombus-area", area);
+        addToHistory("Rhombus", area);
+      }
+
+      function calculatePentagonArea() {
+        const perimeter = getInputValueById("pentagon-perimeter");
+        const apothem = getInputValueById("pentagon-apothem");
+        if (isNaN(perimeter) || isNaN(apothem)) {
+          alert("Please enter valid numbers");
+          return;
+        }
+        const area = 0.5 * perimeter * apothem;
+        setInnerTextById("pentagon-area", area);
+        addToHistory("Pentagon", area);
+      }
+
+      function calculateEllipseArea() {
+        const majorRadius = getInputValueById("ellipse-major-radius");
+        const minorRadius = getInputValueById("ellipse-minor-radius");
+        if (isNaN(majorRadius) || isNaN(minorRadius)) {
+          alert("Please enter valid numbers");
+          return;
+        }
+        const area = Math.PI * majorRadius * minorRadius;
+        setInnerTextById("ellipse-area", area);
+        addToHistory("Ellipse", area);
+      }
+    </script>
   </body>
 </html>
